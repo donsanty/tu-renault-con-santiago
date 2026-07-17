@@ -335,7 +335,7 @@
     <button class="filter-btn" onclick="setFilter('oroch',this)">Oroch</button>
     <button class="filter-btn" onclick="setFilter('kardian',this)">Kardian</button>
     <button class="filter-btn" onclick="setFilter('arkana',this)">Arkana</button>
-    <button class="filter-btn" onclick="setFilter('koleos',this)">Koleos</button>
+    
   </div>
 </div>
 
@@ -377,7 +377,7 @@ const CAT_COLORS = {
   oroch:   { bg: 'linear-gradient(135deg,#171408 0%,#3a2d08 100%)' },
   kardian: { bg: 'linear-gradient(135deg,#0e0c20 0%,#1a1250 100%)' },
   arkana:  { bg: 'linear-gradient(135deg,#180a1f 0%,#3a0a40 100%)' },
-  koleos:  { bg: 'linear-gradient(135deg,#1a1608 0%,#3d3010 100%)' },
+
 };
 
 // ══════════════════════════════════════════════════════════════════
@@ -509,22 +509,7 @@ const VEHICLES = [
     specs:{ motor:'1.3T Turbo 160 CV', trans:'EDC Automática 7 vel.', traccion:'Delantera 4×2', combustible:'Gasolina',
       extras:['Edición especial Alpine','SUV Coupé deportivo','Pantalla 9.3"','Android Auto / Apple CarPlay','Techo panorámico','Tapicería deportiva Alpine'] }
   },
-  {
-    id:16, modelo:'Nueva Koleos Techno', año:2027, cat:'koleos',
-    precio:169990000, primeraInversion:null, cuotaFija:null,
-    imagenExterior: '',   // ← FOTO EXTERIOR KOLEOS TECHNO
-    imagenInterior: '',   // ← FOTO INTERIOR KOLEOS TECHNO
-    specs:{ motor:'1.3T Turbo 160 CV', trans:'EDC Automática 7 vel.', traccion:'Delantera 4×2', combustible:'Gasolina',
-      extras:['SUV mediano premium','Pantalla 12.3"','Android Auto / Apple CarPlay','Techo panorámico','Sensores 360°','Asistente de parqueo automático','Cargador inalámbrico'] }
-  },
-  {
-    id:17, modelo:'Nueva Koleos E-Tech', año:2027, cat:'koleos',
-    precio:180990000, primeraInversion:null, cuotaFija:null,
-    imagenExterior: '',   // ← FOTO EXTERIOR KOLEOS E-TECH
-    imagenInterior: '',   // ← FOTO INTERIOR KOLEOS E-TECH
-    specs:{ motor:'Híbrido E-Tech 200 CV', trans:'Automática multimodal', traccion:'Delantera 4×2', combustible:'Híbrido gasolina-eléctrico',
-      extras:['SUV híbrido premium','Pantalla 12.3"','Modo 100% eléctrico en ciudad','Ahorro hasta 40% combustible','Android Auto / Apple CarPlay','Techo panorámico','Cargador inalámbrico'] }
-  },
+  
   {
     id:18, modelo:'Duster Hybrid E-Tech', año:2027, cat:'duster',
     precio:120990000, primeraInversion:6015181, cuotaFija:1659781,
@@ -733,3 +718,4 @@ renderGrid();
 </script>
 </body>
 </html>
+
