@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tu Renault Con Santiago</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #111113;
+      --surface: #1C1C1F;
+      --surface2: #252528;
+      --yellow: #FFD100;
+      --white: #FFFFFF;
+      --gray: #8E8E93;
+      --gray2: #AEAEB2;
+      --green: #25D366;
+      --r: 12px;
+      --display: 'Barlow Condensed', sans-serif;
+      --body: 'Inter', sans-serif;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--white);font-family:var(--body);min-height:100vh;}
+
+    /* ─── HERO ─── */
+    .hero{
+      background:linear-gradient(160deg,#111113 0%,#18180f 60%,#111113 100%);
+      border-bottom:2px solid var(--yellow);
+      padding:56px 24px 44px;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::before{
+      content:'';position:absolute;top:-40%;left:50%;transform:translateX(-50%);
+      width:700px;height:320px;
+      background:radial-gradient(ellipse,rgba(255,209,0,.07) 0%,transparent 70%);
+      pointer-events:none;
+    }
+    .hero-badge{
+      display:inline-block;background:var(--yellow);color:#000;
+      font-family:var(--display);font-size:11px;font-weight:700;
+      letter-spacing:2px;text-transform:uppercase;
+      padding:6px 14px;border-radius:4px;margin-bottom:20px;
+    }
+    .hero h1{
+      font-family:var(--display);font-size:clamp(52px,12vw,96px);
+      font-weight:900;line-height:.88;text-transform:uppercase;letter-spacing:-2px;
+    }
+    .hero h1 span{color:var(--yellow);}
+    .hero-sub{font-size:13px;color:var(--gray);margin-top:16px;letter-spacing:.4px;}
+    .hero-stats{display:flex;justify-content:center;gap:48px;margin-top:36px;flex-wrap:wrap;}
+    .stat-num{font-family:var(--display);font-size:40px;font-weight:800;color:var(--yellow);line-height:1;}
+    .stat-label{font-size:10px;color:var(--gray);text-transform:uppercase;letter-spacing:1.2px;margin-top:4px;}
+
+    /* ─── FILTERS ─── */
+    .filters-wrap{
+      position:sticky;top:0;z-index:100;
+      background:rgba(17,17,19,.96);backdrop-filter:blur(14px);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .filters{
+      display:flex;gap:6px;overflow-x:auto;padding:12px 24px;
+      scrollbar-width:none;max-width:1200px;margin:0 auto;
+    }
+    .filters::-webkit-scrollbar{display:none;}
+    .filter-btn{
+      background:transparent;border:1px solid rgba(255,255,255,.1);
+      color:var(--gray);font-family:var(--body);font-size:12px;font-weight:500;
+      padding:7px 15px;border-radius:20px;cursor:pointer;white-space:nowrap;
+      transition:all .2s;
+    }
+    .filter-btn:hover{border-color:rgba(255,209,0,.35);color:var(--white);}
+    .filter-btn.active{background:var(--yellow);border-color:var(--yellow);color:#000;font-weight:600;}
+
+    /* ─── MAIN ─── */
+    .main{max-width:1200px;margin:0 auto;padding:32px 24px 140px;}
+    .section-label{
+      font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+      color:var(--gray);margin-bottom:20px;
+    }
+
+    /* ─── GRID ─── */
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px;}
+
+    /* ─── CARD ─── */
+    .card{
+      background:var(--surface);border-radius:var(--r);
+      border:1px solid rgba(255,255,255,.06);
+      overflow:hidden;cursor:pointer;
+      transition:border-color .2s,transform .2s,box-shadow .2s;
+      position:relative;
+    }
+    .card:hover{border-color:rgba(255,209,0,.22);transform:translateY(-2px);}
+    .card.open{border-color:var(--yellow);box-shadow:0 0 0 1px var(--yellow);}
+
+    /* ─── IMAGE AREA ─── */
+    .card-img{
+      width:100%;height:200px;position:relative;overflow:hidden;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .card-img-bg{
+      position:absolute;inset:0;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .card-img-bg span{
+      font-family:var(--display);font-size:72px;font-weight:900;
+      letter-spacing:-3px;text-transform:uppercase;
+      opacity:.07;color:var(--white);user-select:none;
+    }
+    .card-img img{
+      position:absolute;inset:0;width:100%;height:100%;
+      object-fit:cover;transition:opacity .3s;
+    }
+    .card-img img.img-ext{ opacity:1; }
+    .card-img img.img-int{ opacity:0; }
+    .card-img.show-int img.img-ext{ opacity:0; }
+    .card-img.show-int img.img-int{ opacity:1; }
+
+    .img-placeholder{
+      position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
+      font-size:9px;letter-spacing:1px;text-transform:uppercase;
+      color:rgba(255,255,255,.2);white-space:nowrap;
+    }
+    .year-tag{
+      position:absolute;top:10px;right:10px;
+      background:rgba(0,0,0,.55);backdrop-filter:blur(6px);
+      border:1px solid rgba(255,255,255,.1);
+      color:var(--gray2);font-size:10px;font-weight:600;letter-spacing:1px;
+      padding:3px 8px;border-radius:4px;
+    }
+
+    /* ─── IMG TOGGLE ─── */
+    .img-toggle{
+      position:absolute;bottom:10px;right:10px;
+      display:flex;gap:4px;z-index:5;
+    }
+    .img-toggle button{
+      background:rgba(0,0,0,.6);backdrop-filter:blur(6px);
+      border:1px solid rgba(255,255,255,.15);border-radius:4px;
+      color:var(--gray2);font-size:9px;font-weight:600;letter-spacing:.5px;
+      padding:3px 7px;cursor:pointer;transition:all .15s;
+    }
+    .img-toggle button.active{background:var(--yellow);border-color:var(--yellow);color:#000;}
+    .img-toggle button:hover:not(.active){border-color:rgba(255,255,255,.4);color:var(--white);}
+
+    /* compare checkbox */
+    .cmp-wrap{position:absolute;top:10px;left:10px;z-index:5;}
+    .cmp-wrap input{display:none;}
+    .cmp-wrap label{
+      display:flex;align-items:center;gap:5px;
+      background:rgba(0,0,0,.55);backdrop-filter:blur(6px);
+      border:1px solid rgba(255,255,255,.15);border-radius:20px;
+      padding:3px 9px 3px 5px;cursor:pointer;
+      font-size:10px;font-weight:500;color:var(--white);
+      transition:background .15s,border-color .15s;user-select:none;
+    }
+    .cmp-wrap input:checked+label{background:var(--yellow);border-color:var(--yellow);color:#000;}
+    .cmp-dot{
+      width:13px;height:13px;border-radius:50%;border:1.5px solid currentColor;
+      display:flex;align-items:center;justify-content:center;font-size:8px;
+    }
+    .cmp-wrap input:checked+label .cmp-dot::after{content:'✓';}
+
+    /* card body */
+    .card-body{padding:16px;}
+    .card-cat{
+      font-size:10px;font-weight:600;letter-spacing:1.5px;
+      text-transform:uppercase;color:var(--yellow);margin-bottom:4px;
+    }
+    .card-name{
+      font-family:var(--display);font-size:25px;font-weight:800;
+      text-transform:uppercase;line-height:1.1;letter-spacing:-.3px;
+    }
+    .card-price-row{margin-top:12px;display:flex;align-items:baseline;gap:6px;}
+    .price-lbl{font-size:10px;color:var(--gray);text-transform:uppercase;letter-spacing:1px;}
+    .price-val{font-family:var(--display);font-size:22px;font-weight:700;}
+    .card-cuota{margin-top:6px;font-size:12px;color:var(--gray);}
+    .card-cuota strong{color:var(--yellow);}
+    .card-hint{
+      margin-top:14px;font-size:11px;color:var(--gray);
+      display:flex;align-items:center;gap:5px;
+    }
+    .card-hint .arr{display:inline-block;transition:transform .25s;font-size:14px;}
+    .card.open .card-hint .arr{transform:rotate(90deg);}
+
+    /* expanded panel */
+    .card-expanded{
+      max-height:0;overflow:hidden;
+      transition:max-height .4s cubic-bezier(.4,0,.2,1);
+    }
+    .card.open .card-expanded{max-height:1200px;}
+    .exp-inner{
+      border-top:1px solid rgba(255,255,255,.06);
+      padding:20px 16px 20px;
+    }
+    .exp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;}
+    .exp-sec h4{
+      font-size:10px;font-weight:600;letter-spacing:1.5px;
+      text-transform:uppercase;color:var(--gray);margin-bottom:10px;
+    }
+    .spec-row{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);
+      font-size:12.5px;
+    }
+    .spec-row:last-child{border-bottom:none;}
+    .spec-k{color:var(--gray);}
+    .spec-v{color:var(--white);font-weight:500;text-align:right;max-width:60%;}
+    .extras{display:flex;flex-wrap:wrap;gap:6px;padding-top:2px;}
+    .extra{
+      background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);
+      border-radius:4px;padding:4px 8px;font-size:11px;color:var(--gray2);
+    }
+
+    /* pricing box */
+    .pricing{background:var(--surface2);border-radius:10px;padding:16px;}
+    .p-row{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05);
+    }
+    .p-row:last-child{border-bottom:none;}
+    .p-row.highlight{padding-top:13px;}
+    .p-k{font-size:12px;color:var(--gray);}
+    .p-v{font-family:var(--display);font-size:20px;font-weight:700;color:var(--white);}
+    .p-v.yellow{color:var(--yellow);}
+    .p-v.sm{font-size:13px;color:var(--gray2);}
+    .p-note{font-size:10px;color:var(--gray);text-align:center;margin-top:10px;line-height:1.5;}
+
+    /* CTA */
+    .cta-area{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;}
+    .btn-wa{
+      flex:1;min-width:200px;display:flex;align-items:center;
+      justify-content:center;gap:8px;
+      background:var(--green);color:#fff;text-decoration:none;
+      font-family:var(--body);font-size:13px;font-weight:600;
+      padding:12px 18px;border-radius:8px;transition:background .2s;
+    }
+    .btn-wa:hover{background:#1fb955;}
+    .btn-wa svg{width:17px;height:17px;flex-shrink:0;}
+
+    /* ─── COMPARE BAR ─── */
+    .cmp-bar{
+      position:fixed;bottom:0;left:0;right:0;
+      background:var(--surface);border-top:1px solid rgba(255,209,0,.25);
+      padding:14px 20px;display:flex;align-items:center;
+      justify-content:space-between;gap:12px;z-index:200;
+      transform:translateY(100%);transition:transform .3s ease;
+    }
+    .cmp-bar.show{transform:translateY(0);}
+    .cmp-bar-items{display:flex;gap:8px;flex:1;overflow-x:auto;scrollbar-width:none;align-items:center;}
+    .cmp-bar-items::-webkit-scrollbar{display:none;}
+    .cmp-chip{
+      background:var(--surface2);border:1px solid rgba(255,209,0,.2);
+      border-radius:8px;padding:5px 10px;font-size:11px;color:var(--white);
+      white-space:nowrap;display:flex;align-items:center;gap:6px;
+    }
+    .cmp-chip button{background:none;border:none;color:var(--gray);cursor:pointer;font-size:13px;line-height:1;padding:0;}
+    .cmp-chip button:hover{color:var(--white);}
+    .btn-cmp{
+      background:var(--yellow);color:#000;border:none;
+      font-family:var(--display);font-size:15px;font-weight:700;
+      padding:10px 20px;border-radius:8px;cursor:pointer;white-space:nowrap;
+    }
+
+    /* ─── COMPARE MODAL ─── */
+    .cmp-modal{
+      position:fixed;inset:0;z-index:300;
+      background:rgba(0,0,0,.88);
+      display:none;align-items:flex-end;padding:16px;
+    }
+    .cmp-modal.open{display:flex;}
+    .cmp-inner{
+      background:var(--surface);border-radius:16px;
+      width:100%;max-height:88vh;overflow-y:auto;
+      max-width:960px;margin:0 auto;padding:24px;
+    }
+    .cmp-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;}
+    .cmp-header h3{font-family:var(--display);font-size:26px;font-weight:800;text-transform:uppercase;}
+    .btn-close{
+      background:var(--surface2);border:none;color:var(--gray);
+      width:32px;height:32px;border-radius:50%;cursor:pointer;
+      font-size:16px;display:flex;align-items:center;justify-content:center;
+    }
+    .cmp-table{width:100%;border-collapse:collapse;}
+    .cmp-table th{
+      font-family:var(--display);font-size:17px;font-weight:700;
+      text-align:center;padding:10px 6px;color:var(--yellow);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .cmp-table td{
+      padding:9px 6px;font-size:12.5px;text-align:center;
+      border-bottom:1px solid rgba(255,255,255,.04);color:var(--gray2);
+    }
+    .cmp-table td:first-child{text-align:left;color:var(--gray);font-size:10px;letter-spacing:.5px;text-transform:uppercase;}
+    .cmp-table tr:hover td{background:rgba(255,255,255,.02);}
+
+    /* ─── FLOATING WA ─── */
+    .float-wa{
+      position:fixed;bottom:24px;right:24px;
+      width:52px;height:52px;background:var(--green);border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      box-shadow:0 4px 20px rgba(37,211,102,.38);z-index:150;
+      text-decoration:none;transition:transform .2s;
+    }
+    .float-wa:hover{transform:scale(1.08);}
+
+    @media(max-width:640px){.grid{grid-template-columns:1fr;}.hero-stats{gap:28px;}}
+    ::-webkit-scrollbar{width:4px;}
+    ::-webkit-scrollbar-track{background:transparent;}
+    ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px;}
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-badge">Tu Renault Con Santiago</div>
+  <h1>Catálogo<br></span></h1>
+  <p class="hero-sub">Carros Nuevos y Usados · Financiamiento a 84 meses ·Cuotas Fijas</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">84</div><div class="stat-label">Meses</div></div>
+    <div class="stat"><div class="stat-num">0%</div><div class="stat-label">Interés bancario</div></div>
+    <div class="stat"><div class="stat-num">19</div><div class="stat-label">Modelos</div></div>
+  </div>
+</header>
+
+<div class="filters-wrap">
+  <div class="filters" id="filters">
+    <button class="filter-btn active" onclick="setFilter('todos',this)">Todos</button>
+    <button class="filter-btn" onclick="setFilter('kwid',this)">Kwid</button>
+    <button class="filter-btn" onclick="setFilter('logan',this)">Logan</button>
+    <button class="filter-btn" onclick="setFilter('stepway',this)">Stepway</button>
+    <button class="filter-btn" onclick="setFilter('duster',this)">Duster</button>
+    <button class="filter-btn" onclick="setFilter('oroch',this)">Oroch</button>
+    <button class="filter-btn" onclick="setFilter('kardian',this)">Kardian</button>
+    <button class="filter-btn" onclick="setFilter('arkana',this)">Arkana</button>
+    <button class="filter-btn" onclick="setFilter('koleos',this)">Koleos</button>
+  </div>
+</div>
+
+<main class="main">
+  <p class="section-label" id="section-label">19 vehículos disponibles</p>
+  <div class="grid" id="grid"></div>
+</main>
+
+<div class="cmp-bar" id="cmpBar">
+  <div class="cmp-bar-items" id="cmpBarItems"></div>
+  <button class="btn-cmp" onclick="openComparator()">Comparar →</button>
+</div>
+
+<div class="cmp-modal" id="cmpModal" onclick="closeIfBackdrop(event)">
+  <div class="cmp-inner">
+    <div class="cmp-header">
+      <h3>Comparador</h3>
+      <button class="btn-close" onclick="closeComparator()">✕</button>
+    </div>
+    <div id="cmpContent"></div>
+  </div>
+</div>
+
+<a href="https://wa.me/573106348635?text=Hola!%20Vi%20el%20cat%C3%A1logo%20Plan%20Rombo%20y%20me%20gustar%C3%ADa%20m%C3%A1s%20informaci%C3%B3n."
+   class="float-wa" title="Contáctanos por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="#fff" width="26" height="26">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<script>
+const WA_NUMBER = '573106348635';
+
+const CAT_COLORS = {
+  kwid:    { bg: 'linear-gradient(135deg,#1f0e0a 0%,#3d1408 100%)' },
+  logan:   { bg: 'linear-gradient(135deg,#0b0f1f 0%,#0f1e45 100%)' },
+  stepway: { bg: 'linear-gradient(135deg,#0a1710 0%,#0f3d1a 100%)' },
+  duster:  { bg: 'linear-gradient(135deg,#1c1108 0%,#3d2a08 100%)' },
+  oroch:   { bg: 'linear-gradient(135deg,#171408 0%,#3a2d08 100%)' },
+  kardian: { bg: 'linear-gradient(135deg,#0e0c20 0%,#1a1250 100%)' },
+  arkana:  { bg: 'linear-gradient(135deg,#180a1f 0%,#3a0a40 100%)' },
+  koleos:  { bg: 'linear-gradient(135deg,#1a1608 0%,#3d3010 100%)' },
+};
+
+// ══════════════════════════════════════════════════════════════════
+//  VEHÍCULOS — Para agregar fotos busca las líneas:
+//    imagenExterior: ''   ← pega aquí la URL de la foto exterior
+//    imagenInterior: ''   ← pega aquí la URL de la foto interior
+//  Ejemplo:
+//    imagenExterior: 'https://www.renault.com.co/foto-kwid-exterior.jpg',
+//    imagenInterior: 'https://www.renault.com.co/foto-kwid-interior.jpg',
+// ══════════════════════════════════════════════════════════════════
+const VEHICLES = [
+  {
+    id:1, modelo:'Kwid Intens Col', año:2027, cat:'kwid',
+    precio:55990000, primeraInversion:2761067, cuotaFija:761867,
+    imagenExterior: '',   // ← FOTO EXTERIOR KWID INTENS
+    imagenInterior: '',   // ← FOTO INTERIOR KWID INTENS
+    specs:{ motor:'1.0L SCe 65 CV', trans:'Manual 5 vel.', traccion:'Delantera 4×2', combustible:'Gasolina',
+      extras:['Pantalla táctil 7"','Bluetooth y USB','Frenos ABS + EBD','Airbag doble frontal','Control de estabilidad ESC','Aire acondicionado'] }
+  },
+  {
+    id:2, modelo:'Kwid Iconic Col', año:2027, cat:'kwid',
+    precio:57990000, primeraInversion:2859676, cuotaFija:789076,
+    imagenExterior: '',   // ← FOTO EXTERIOR KWID ICONIC
+    imagenInterior: '',   // ← FOTO INTERIOR KWID ICONIC
+    specs:{ motor:'1.0L SCe 65 CV', trans:'Manual 5 vel.', traccion:'Delantera 4×2', combustible:'Gasolina',
+      extras:['Pantalla táctil 7"','Cámara trasera','Sensores de parqueo','Llantas 15"','Bluetooth','Frenos ABS','Airbag doble','ESC'] }
+  },
+  {
+    id:3, modelo:'Kwid Outsider Col', año:2027, cat:'kwid',
+    precio:59990000, primeraInversion:2958286, cuotaFija:816286,
+    imagenExterior: '',   // ← FOTO EXTERIOR KWID OUTSIDER
+    imagenInterior: '',   // ← FOTO INTERIOR KWID OUTSIDER
+    specs:{ motor:'1.0L SCe 65 CV', trans:'Manual 5 vel.', traccion:'Delantera 4×2', combustible:'Gasolina',
+      extras:['Diseño Outsider exclusivo','Guardabarros anchos','Llantas 15" mixtas','Pantalla táctil 7"','Bluetooth','Frenos ABS','Control de estabilidad'] }
+  },
+  {
+    id:4, modelo:'Logan Life +', año:2027, cat:'logan',
+    precio:67990000, primeraInversion:3352724, cuotaFija:925124,
+    imagenExterior: '',   // ← FOTO EXTERIOR LOGAN LIFE+
+    imagenInterior: '',   // ← FOTO INTERIOR LOGAN LIFE+
+    specs:{ motor:'1.6L 16V 115 CV', trans:'Manual 5 vel.', traccion:'Delantera 4×2', combustible:'Gasolina',
+      extras:['Pantalla táctil 8"','Cámara trasera','Bluetooth y USB','Frenos ABS + EBD','Airbag doble','Aire acondicionado','Maletero 510L'] }
+  },
+  {
+    id:5, modelo:'Stepway Intens CVT', año:2027, cat:'stepway',
+    precio:86630000, primeraInversion:4338819, cuotaFija:1197219,
+    imagenExterior: '',   // ← FOTO EXTERIOR STEPWAY
+    imagenInterior: '',   // ← FOTO INTERIOR STEPWAY
+    specs:{ motor:'1.3T Turbo 150 CV', trans:'CVT Automática', traccion:'Delantera 4×2', combustible:'Gasolina',
+      extras:['Pantalla táctil 9.3"','Android Auto / Apple CarPlay','Cámara 360°','Sensores frontales y traseros','Control de crucero','Asistente frenado de emergencia'] }
+  },
+  {
+    id:6, modelo:'Duster Zen 1.6 MT', año:2027, cat:'duster',
+    precio:85990000, primeraInversion:4240210, cuotaFija:1170010,
+    imagenExterior: '',   // ← FOTO EXTERIOR DUSTER ZEN
+    imagenInterior: '',   // ← FOTO INTERIOR DUSTER ZEN
+    specs:{ motor:'1.6L 16V 115 CV', trans:'Manual 5 vel.', traccion:'Delantera 4×2', combustible:'Gasolina',
+      extras:['Suspensión elevada 210 mm','Pantalla táctil 8"','Bluetooth','Frenos ABS + EBD','Ángulo de ataque 30°','Capacidad campo traviesa'] }
+  },
+  {
+    id:7, modelo:'Duster Intense 1.6 MT', año:2027, cat:'duster',
+    precio:90990000, primeraInversion:4536038, cuotaFija:1251638,
+    imagenExterior: '',   // ← FOTO EXTERIOR DUSTER INTENSE
+    imagenInterior: '',   // ← FOTO INTERIOR DUSTER INTENSE
+    specs:{ motor:'1.6L 16V 115 CV', trans:'Manual 5 vel.', traccion:'Delantera 4×2', combustible:'Gasolina',
+      extras:['Pantalla táctil 8"','Cámara trasera','Control de crucero','Sensores de parqueo','Frenos ABS','Suspensión elevada 210 mm'] }
+  },
+  {
+    id:8, modelo:'Duster Iconic 1.3T CVT', año:2027, cat:'duster',
+    precio:104990000, primeraInversion:5226305, cuotaFija:1442105,
+    imagenExterior: '',   // ← FOTO EXTERIOR DUSTER ICONIC CVT
+    imagenInterior: '',   // ← FOTO INTERIOR DUSTER ICONIC CVT
+    specs:{ motor:'1.3T Turbo 150 CV', trans:'CVT Automática', traccion:'Delantera 4×2', combustible:'Gasolina',
+      extras:['Pantalla táctil 9.3"','Android Auto / Apple CarPlay','Cámara 360°','Control de crucero adaptativo','Alerta de punto ciego','Frenado autónomo'] }
+  },
+  {
+    id:9, modelo:'Duster Iconic 1.3T 4x4 MT', año:2027, cat:'duster',
+    precio:108990000, primeraInversion:5423524, cuotaFija:1496524,
+    imagenExterior: '',   // ← FOTO EXTERIOR DUSTER ICONIC 4X4
+    imagenInterior: '',   // ← FOTO INTERIOR DUSTER ICONIC 4X4
+    specs:{ motor:'1.3T Turbo 150 CV', trans:'Manual 6 vel.', traccion:'4×4 con bloqueo central', combustible:'Gasolina',
+      extras:['Tracción 4×4 Lock','Pantalla 9.3"','Android Auto / Apple CarPlay','Protectores de bajos','Modo Off-Road','Suspensión elevada 210 mm'] }
+  },
+  {
+    id:10, modelo:'Oroch Intens CVT', año:2027, cat:'oroch',
+    precio:114790000, primeraInversion:5719352, cuotaFija:1578152,
+    imagenExterior: '',   // ← FOTO EXTERIOR OROCH CVT
+    imagenInterior: '',   // ← FOTO INTERIOR OROCH CVT
+    specs:{ motor:'1.3T Turbo 163 CV', trans:'CVT Automática', traccion:'Delantera 4×2', combustible:'Gasolina',
+      extras:['Pickup doble cabina','Capacidad carga 750 kg','Pantalla 9.3"','Android Auto / Apple CarPlay','Cámara trasera','Control de crucero'] }
+  },
+  {
+    id:11, modelo:'Oroch Intens 4X4 Outsider', año:2027, cat:'oroch',
+    precio:115790000, primeraInversion:5719352, cuotaFija:1578152,
+    imagenExterior: '',   // ← FOTO EXTERIOR OROCH 4X4
+    imagenInterior: '',   // ← FOTO INTERIOR OROCH 4X4
+    specs:{ motor:'1.3T Turbo 163 CV', trans:'Manual 6 vel.', traccion:'4×4 con bloqueo', combustible:'Gasolina',
+      extras:['Pickup 4×4 doble cabina','Diseño Outsider exclusivo','Carga 750 kg','Protectores reforzados','Barra antivuelco','Pantalla 9.3"'] }
+  },
+  {
+    id:12, modelo:'Kardian Evolution MT', año:2027, cat:'kardian',
+    precio:79990000, primeraInversion:3944381, cuotaFija:1088381,
+    imagenExterior: '',   // ← FOTO EXTERIOR KARDIAN MT
+    imagenInterior: '',   // ← FOTO INTERIOR KARDIAN MT
+    specs:{ motor:'1.0T TCe 90 CV', trans:'Manual 6 vel.', traccion:'Delantera 4×2', combustible:'Gasolina',
+      extras:['Pantalla táctil 8"','Android Auto / Apple CarPlay','Cámara trasera','Frenos ABS + EBD','Control de estabilidad','Airbag doble'] }
+  },
+  {
+    id:13, modelo:'Kardian Evolution EDC', año:2027, cat:'kardian',
+    precio:91990000, primeraInversion:4536038, cuotaFija:1251638,
+    imagenExterior: '',   // ← FOTO EXTERIOR KARDIAN EDC
+    imagenInterior: '',   // ← FOTO INTERIOR KARDIAN EDC
+    specs:{ motor:'1.0T TCe 90 CV', trans:'EDC Automática 7 vel.', traccion:'Delantera 4×2', combustible:'Gasolina',
+      extras:['Pantalla táctil 8"','Android Auto / Apple CarPlay','Cámara trasera','Sensores de parqueo','Control de crucero','Frenos ABS'] }
+  },
+  {
+    id:14, modelo:'Kardian Iconic', año:2027, cat:'kardian',
+    precio:101990000, primeraInversion:5029086, cuotaFija:1387686,
+    imagenExterior: '',   // ← FOTO EXTERIOR KARDIAN ICONIC
+    imagenInterior: '',   // ← FOTO INTERIOR KARDIAN ICONIC
+    specs:{ motor:'1.0T TCe 90 CV', trans:'EDC Automática 7 vel.', traccion:'Delantera 4×2', combustible:'Gasolina',
+      extras:['Pantalla táctil 10.4"','Techo panorámico','Ventilación de asientos','Cargador inalámbrico','Cámara 360°','Full equipo'] }
+  },
+  {
+    id:15, modelo:'Arkana Espirit Alpine', año:2027, cat:'arkana',
+    precio:134490000, primeraInversion:6705448, cuotaFija:1850248,
+    imagenExterior: '',   // ← FOTO EXTERIOR ARKANA ALPINE
+    imagenInterior: '',   // ← FOTO INTERIOR ARKANA ALPINE
+    specs:{ motor:'1.3T Turbo 160 CV', trans:'EDC Automática 7 vel.', traccion:'Delantera 4×2', combustible:'Gasolina',
+      extras:['Edición especial Alpine','SUV Coupé deportivo','Pantalla 9.3"','Android Auto / Apple CarPlay','Techo panorámico','Tapicería deportiva Alpine'] }
+  },
+  {
+    id:16, modelo:'Nueva Koleos Techno', año:2027, cat:'koleos',
+    precio:169990000, primeraInversion:null, cuotaFija:null,
+    imagenExterior: '',   // ← FOTO EXTERIOR KOLEOS TECHNO
+    imagenInterior: '',   // ← FOTO INTERIOR KOLEOS TECHNO
+    specs:{ motor:'1.3T Turbo 160 CV', trans:'EDC Automática 7 vel.', traccion:'Delantera 4×2', combustible:'Gasolina',
+      extras:['SUV mediano premium','Pantalla 12.3"','Android Auto / Apple CarPlay','Techo panorámico','Sensores 360°','Asistente de parqueo automático','Cargador inalámbrico'] }
+  },
+  {
+    id:17, modelo:'Nueva Koleos E-Tech', año:2027, cat:'koleos',
+    precio:180990000, primeraInversion:null, cuotaFija:null,
+    imagenExterior: '',   // ← FOTO EXTERIOR KOLEOS E-TECH
+    imagenInterior: '',   // ← FOTO INTERIOR KOLEOS E-TECH
+    specs:{ motor:'Híbrido E-Tech 200 CV', trans:'Automática multimodal', traccion:'Delantera 4×2', combustible:'Híbrido gasolina-eléctrico',
+      extras:['SUV híbrido premium','Pantalla 12.3"','Modo 100% eléctrico en ciudad','Ahorro hasta 40% combustible','Android Auto / Apple CarPlay','Techo panorámico','Cargador inalámbrico'] }
+  },
+  {
+    id:18, modelo:'Duster Hybrid E-Tech', año:2027, cat:'duster',
+    precio:120990000, primeraInversion:6015181, cuotaFija:1659781,
+    imagenExterior: '',   // ← FOTO EXTERIOR DUSTER HYBRID
+    imagenInterior: '',   // ← FOTO INTERIOR DUSTER HYBRID
+    specs:{ motor:'Híbrido E-Tech 140 CV', trans:'Automática multimodal', traccion:'Delantera 4×2', combustible:'Híbrido gasolina-eléctrico',
+      extras:['SUV híbrido compacto','Pantalla 9.3"','Android Auto / Apple CarPlay','Modo eléctrico en ciudad','Cámara 360°','Control de crucero adaptativo'] }
+  },
+  {
+    id:19, modelo:'Arkana Techno', año:2026, cat:'arkana',
+    precio:126490000, primeraInversion:6311010, cuotaFija:1741410,
+    imagenExterior: '',   // ← FOTO EXTERIOR ARKANA TECHNO
+    imagenInterior: '',   // ← FOTO INTERIOR ARKANA TECHNO
+    specs:{ motor:'1.3T Turbo 150 CV', trans:'EDC Automática 7 vel.', traccion:'Delantera 4×2', combustible:'Gasolina',
+      extras:['SUV Coupé elegante','Pantalla 9.3"','Android Auto / Apple CarPlay','Techo panorámico','Sensores de parqueo','Cámara trasera','Control de crucero adaptativo'] }
+  }
+];
+
+const $ = id => document.getElementById(id);
+const fmt = n => '$' + Math.round(n).toLocaleString('es-CO');
+const cuota = v => v.cuotaFija != null ? v.cuotaFija : (v.primeraInversion != null ? (v.precio - v.primeraInversion) / 84 : v.precio / 84);
+const total84 = v => (v.primeraInversion != null ? v.primeraInversion : 0) + cuota(v) * 83;
+const waLink = (v, num) => {
+  const txt = encodeURIComponent(`Hola! Me interesa el *Renault ${v.modelo}* (${v.año}) del Plan Rombo. La cuota de ${fmt(cuota(v))}/mes me parece interesante. ¿Me puedes dar más información?`);
+  return `https://wa.me/${num}?text=${txt}`;
+};
+
+let currentFilter = 'todos';
+let compareList = [];
+
+function setFilter(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderGrid();
+}
+
+function toggleCard(id) {
+  const el = document.getElementById('card-' + id);
+  if (!el) return;
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.card.open').forEach(c => c.classList.remove('open'));
+  if (!isOpen) el.classList.add('open');
+}
+
+function switchImg(id, view, e) {
+  e.stopPropagation();
+  const imgArea = document.getElementById('imgarea-' + id);
+  const btnExt  = document.getElementById('btnext-' + id);
+  const btnInt  = document.getElementById('btnint-' + id);
+  if (!imgArea) return;
+  if (view === 'int') {
+    imgArea.classList.add('show-int');
+    btnInt.classList.add('active');
+    btnExt.classList.remove('active');
+  } else {
+    imgArea.classList.remove('show-int');
+    btnExt.classList.add('active');
+    btnInt.classList.remove('active');
+  }
+}
+
+function toggleCompare(id, e) {
+  e.stopPropagation();
+  const idx = compareList.indexOf(id);
+  if (idx === -1) {
+    if (compareList.length >= 3) { alert('Máximo 3 vehículos para comparar.'); return; }
+    compareList.push(id);
+  } else {
+    compareList.splice(idx, 1);
+  }
+  updateCompareBar();
+}
+
+function updateCompareBar() {
+  const bar = $('cmpBar');
+  const items = $('cmpBarItems');
+  if (compareList.length === 0) { bar.classList.remove('show'); return; }
+  bar.classList.add('show');
+  items.innerHTML = compareList.map(id => {
+    const v = VEHICLES.find(x => x.id === id);
+    return `<div class="cmp-chip">${v.modelo.split(' ')[0]} ${v.modelo.split(' ')[1]||''}<button onclick="removeCompare(${id})">✕</button></div>`;
+  }).join('');
+}
+
+function removeCompare(id) {
+  compareList = compareList.filter(x => x !== id);
+  const cb = document.getElementById('cmp-' + id);
+  if (cb) cb.checked = false;
+  updateCompareBar();
+}
+
+function openComparator() {
+  const vs = compareList.map(id => VEHICLES.find(v => v.id === id));
+  const rows = [
+    { label:'Precio', val: v => fmt(v.precio) },
+    { label:'Primera inversión', val: v => v.primeraInversion != null ? fmt(v.primeraInversion) : 'Por confirmar' },
+    { label:'Cuota mensual', val: v => fmt(cuota(v)) },
+    { label:'Total financiado', val: v => fmt(total84(v)) },
+    { label:'Motor', val: v => v.specs.motor },
+    { label:'Transmisión', val: v => v.specs.trans },
+    { label:'Tracción', val: v => v.specs.traccion },
+    { label:'Combustible', val: v => v.specs.combustible },
+    { label:'Año', val: v => v.año },
+  ];
+  $('cmpContent').innerHTML = `
+    <table class="cmp-table">
+      <tr><th></th>${vs.map(v=>`<th>${v.modelo}</th>`).join('')}</tr>
+      ${rows.map(r=>`<tr><td>${r.label}</td>${vs.map(v=>`<td>${r.val(v)}</td>`).join('')}</tr>`).join('')}
+    </table>
+    <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;">
+      ${vs.map(v=>`<a href="${waLink(v,WA_NUMBER)}" class="btn-wa">
+        <svg viewBox="0 0 24 24" fill="#fff" width="16" height="16"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        ${v.modelo.split(' ')[0]}</a>`).join('')}
+    </div>`;
+  $('cmpModal').classList.add('open');
+}
+
+function closeComparator() { $('cmpModal').classList.remove('open'); }
+function closeIfBackdrop(e) { if (e.target === $('cmpModal')) closeComparator(); }
+
+const WA_SVG = `<svg viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+
+function cardHTML(v) {
+  const cc = CAT_COLORS[v.cat];
+  const c = cuota(v);
+  const t = total84(v);
+  const isCompared = compareList.includes(v.id);
+  const hasExt = !!v.imagenExterior;
+  const hasInt = !!v.imagenInterior;
+  const hasAny = hasExt || hasInt;
+
+  return `<div class="card" id="card-${v.id}" onclick="toggleCard(${v.id})">
+
+    <div class="card-img" id="imgarea-${v.id}" style="background:${cc.bg};">
+      <div class="card-img-bg"><span>${v.modelo.split(' ')[0]}</span></div>
+      <img class="img-ext" src="${v.imagenExterior||''}" alt="Exterior ${v.modelo}" onerror="this.style.display='none'" ${!hasExt?'style="display:none"':''}>
+      <img class="img-int" src="${v.imagenInterior||''}" alt="Interior ${v.modelo}" onerror="this.style.display='none'" ${!hasInt?'style="display:none"':''}>
+      ${!hasAny ? '<span class="img-placeholder">→ foto por agregar</span>' : ''}
+      <span class="year-tag">${v.año}</span>
+      ${(hasExt || hasInt) ? `
+      <div class="img-toggle" onclick="event.stopPropagation()">
+        <button id="btnext-${v.id}" class="active" onclick="switchImg(${v.id},'ext',event)">EXT</button>
+        <button id="btnint-${v.id}" onclick="switchImg(${v.id},'int',event)">INT</button>
+      </div>` : ''}
+    </div>
+
+    <div class="cmp-wrap" onclick="event.stopPropagation()">
+      <input type="checkbox" id="cmp-${v.id}" ${isCompared?'checked':''} onchange="toggleCompare(${v.id},event)">
+      <label for="cmp-${v.id}"><span class="cmp-dot"></span>Comparar</label>
+    </div>
+
+    <div class="card-body">
+      <div class="card-cat">${v.cat.charAt(0).toUpperCase()+v.cat.slice(1)}</div>
+      <div class="card-name">${v.modelo}</div>
+      <div class="card-price-row">
+        <span class="price-lbl">Precio</span>
+        <span class="price-val">${fmt(v.precio)}</span>
+      </div>
+      <div class="card-cuota">Cuota desde <strong>${fmt(c)}</strong> / mes</div>
+      <div class="card-hint">Ver características y financiamiento <span class="arr">›</span></div>
+    </div>
+
+    <div class="card-expanded">
+      <div class="exp-inner">
+        <div class="exp-grid">
+          <div class="exp-sec">
+            <h4>Ficha técnica</h4>
+            <div class="spec-row"><span class="spec-k">Motor</span><span class="spec-v">${v.specs.motor}</span></div>
+            <div class="spec-row"><span class="spec-k">Transmisión</span><span class="spec-v">${v.specs.trans}</span></div>
+            <div class="spec-row"><span class="spec-k">Tracción</span><span class="spec-v">${v.specs.traccion}</span></div>
+            <div class="spec-row"><span class="spec-k">Combustible</span><span class="spec-v">${v.specs.combustible}</span></div>
+          </div>
+          <div class="exp-sec">
+            <h4>Equipamiento</h4>
+            <div class="extras">${v.specs.extras.map(e=>`<span class="extra">${e}</span>`).join('')}</div>
+          </div>
+          <div class="exp-sec">
+            <h4>Financiamiento Plan Rombo</h4>
+            <div class="pricing">
+              <div class="p-row"><span class="p-k">Precio del vehículo</span><span class="p-v">${fmt(v.precio)}</span></div>
+              <div class="p-row"><span class="p-k">Primera inversión</span><span class="p-v sm">${v.primeraInversion != null ? fmt(v.primeraInversion) : 'Por confirmar'}</span></div>
+              <div class="p-row highlight"><span class="p-k">Cuota mensual (83 meses)</span><span class="p-v yellow">${fmt(c)}</span></div>
+              <div class="p-row"><span class="p-k">Total financiado</span><span class="p-v">${fmt(t)}</span></div>
+            </div>
+            <p class="p-note">Cuotas fijas administradas por fiduciaria · Sin banco · Sujeto a disponibilidad · Precios válidos Julio 2026</p>
+          </div>
+        </div>
+        <div class="cta-area">
+          <a href="${waLink(v, WA_NUMBER)}" class="btn-wa" onclick="event.stopPropagation();">
+            ${WA_SVG} Me interesa el ${v.modelo.split(' ')[0]}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderGrid() {
+  const filtered = currentFilter === 'todos' ? VEHICLES : VEHICLES.filter(v => v.cat === currentFilter);
+  $('section-label').textContent = `${filtered.length} vehículo${filtered.length!==1?'s':''} disponible${filtered.length!==1?'s':''}`;
+  $('grid').innerHTML = filtered.map(cardHTML).join('');
+}
+
+renderGrid();
+</script>
+</body>
+</html>
