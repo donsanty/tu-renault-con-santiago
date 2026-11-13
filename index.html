@@ -194,14 +194,16 @@
 
     /* ─── FILTERS ─── */
     .filters-wrap{
-      position:sticky;top:0;z-index:100;
+      position:relative;z-index:100;
       background:rgba(13,17,31,.96);backdrop-filter:blur(14px);
       border-bottom:1px solid rgba(255,255,255,.06);
     }
     .filters{
-      display:flex;gap:6px;overflow-x:auto;padding:12px 24px;
-      scrollbar-width:none;max-width:1200px;margin:0 auto;
+      display:flex;flex-wrap:wrap;justify-content:center;gap:8px;padding:14px 24px;
+      max-width:1200px;margin:0 auto;
     }
+    @media (min-width:769px){ .filters-wrap{position:sticky;top:0;} }
+    @media (max-width:768px){ .filter-btn{padding:7px 13px;font-size:11px;} }
     .filters::-webkit-scrollbar{display:none;}
     .filter-btn{
       background:transparent;border:1.5px solid rgba(255,255,255,.15);
@@ -569,12 +571,12 @@
 <body>
 
   <!-- BOTÓN WA FLOTANTE GRANDE -->
-  <a href="https://wa.me/573106348635" target="_blank" class="wa-float-btn" title="Contactar por WhatsApp">
+  <a href="https://wa.me/573001118945" target="_blank" class="wa-float-btn" title="Contactar por WhatsApp">
     <span class="wa-float-label">¡Contáctanos!</span>
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
   </a>
   <div class="social-float">
-    <a href="https://wa.me/573106348635" target="_blank" class="social-btn wa" title="WhatsApp">
+    <a href="https://wa.me/573001118945" target="_blank" class="social-btn wa" title="WhatsApp">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
     </a>
     <a href="https://instagram.com" target="_blank" class="social-btn ig" title="Instagram">
@@ -605,7 +607,7 @@
         <b>Hola, soy Santiago</b>
         <span>Asesor comercial · Plan Rombo</span>
       </div>
-      <a class="asesor-btn" href="https://wa.me/573106348635?text=Hola%20Santiago%2C%20quiero%20información%20de%20Plan%20Rombo" target="_blank">Escríbeme</a>
+      <a class="asesor-btn" href="https://wa.me/573001118945?text=Hola%20Santiago%2C%20quiero%20información%20de%20Plan%20Rombo" target="_blank">Escríbeme</a>
     </div>
     <div class="hero-stats">
       <div>
@@ -644,18 +646,18 @@
           <div class="conc-info">
             📍 Medellín, Antioquia<br>
             🕒 Lun - Sab: 10am - 8pm<br>
-            ☎️ +57 310 6348635
+            ☎️ +57 300 1118945
           </div>
-          <a href="https://wa.me/573106348635" class="conc-btn">Contactar</a>
+          <a href="https://wa.me/573001118945" class="conc-btn">Contactar</a>
         </div>
         <div class="conc-card">
           <div class="conc-name">Centro Comercial Arkadia</div>
           <div class="conc-info">
             📍 Medellín, Antioquia<br>
             🕒 Lun - Sab: 10am - 8pm<br>
-            ☎️ +57 310 6348635
+            ☎️ +57 300 1118945
           </div>
-          <a href="https://wa.me/573106348635" class="conc-btn">Contactar</a>
+          <a href="https://wa.me/573001118945" class="conc-btn">Contactar</a>
         </div>
       </div>
     </div>
@@ -754,7 +756,42 @@
   </footer>
 
   <script>
-    const WA_NUMBER = '+573106348635';
+    const WA_NUMBER = '+573001118945';
+
+    // ╔═══════════════════════════════════════════════════════════════╗
+    // ║   ZONA DE FOTOS  →  AQUÍ PEGAS LOS LINKS DE LAS FOTOS         ║
+    // ╚═══════════════════════════════════════════════════════════════╝
+    // Cada carro tiene su línea. Pega el link de la foto ENTRE LAS COMILLAS ''
+    // Orden de las 6 fotos:  1 Exterior · 2 Interior · 3 Rines · 4 Maletero · 5 Frente y trasera · 6 Puesto del conductor
+    // Mínimo llena las 3 primeras. Si dejas '' vacío, la página muestra el aviso "falta la foto".
+    // Ejemplo:  1: ['https://i.imgur.com/abc123.jpg', 'https://i.imgur.com/def456.jpg', 'https://i.imgur.com/ghi789.jpg', '', '', ''],
+    const FOTOS = {
+      1: ['https://i.postimg.cc/c4ZGZVtd/Whats-App-Image-2026-11-12-at-8-01-13-PM.jpg', 'https://i.postimg.cc/3J3VzmzN/dc60249d-89be-4123-aa5e-03315cc26530.jpg', 'https://i.postimg.cc/WbsCxgxf/71ace422-b5ea-4ad5-a701-3163ee02622d.jpg', 'https://i.postimg.cc/sgX8gyjF/8c29732b-4783-4585-aa9f-60202fd0696f.jpg', '', ''],   // Kwid Evolution
+      2: ['https://i.postimg.cc/c4ZGZVtd/Whats-App-Image-2026-11-12-at-8-01-13-PM.jpg', 'https://i.postimg.cc/3J3VzmzN/dc60249d-89be-4123-aa5e-03315cc26530.jpg', 'https://i.postimg.cc/WbsCxgxf/71ace422-b5ea-4ad5-a701-3163ee02622d.jpg', '', '', ''],   // Kwid Techno
+      3: ['https://i.postimg.cc/c4ZGZVtd/Whats-App-Image-2026-11-12-at-8-01-13-PM.jpg', 'https://i.postimg.cc/3J3VzmzN/dc60249d-89be-4123-aa5e-03315cc26530.jpg', 'https://i.postimg.cc/WbsCxgxf/71ace422-b5ea-4ad5-a701-3163ee02622d.jpg', '', '', ''],   // Kwid Techno Bitono
+      4: ['https://i.postimg.cc/c4ZGZVtd/Whats-App-Image-2026-11-12-at-8-01-13-PM.jpg', 'https://i.postimg.cc/3J3VzmzN/dc60249d-89be-4123-aa5e-03315cc26530.jpg', 'https://i.postimg.cc/WbsCxgxf/71ace422-b5ea-4ad5-a701-3163ee02622d.jpg', '', '', ''],   // Kwid Outsider
+      5: ['https://i.postimg.cc/fRgDCB2H/image.png', 'https://i.postimg.cc/brTjtTSW/image.png', 'https://i.postimg.cc/d0yPBvT1/image.png', '', '', ''],   // Logan Life +
+      6: ['https://i.postimg.cc/MH653bXv/image.png', 'https://i.postimg.cc/DwJgNzfq/image.png', 'https://i.postimg.cc/hvNJQKFj/image.png', '', '', ''],   // Kardian Evolution MT
+      7: ['https://i.postimg.cc/kGMpkdDs/image.png', 'https://i.postimg.cc/NMcVkXtv/image.png', '', '', '', ''],   // Kangoo
+      8: ['https://i.postimg.cc/hPqQnP0f/image.png', 'https://i.postimg.cc/Z5wW6Pzw/image.png', 'https://i.postimg.cc/wMYM90D8/image.png', '', '', ''],   // Duster Zen 1.6 MT
+      9: ['https://i.postimg.cc/7PTDV309/image.png', 'https://i.postimg.cc/8zTSNx3K/image.png', 'https://i.postimg.cc/NjbwMpvg/image.png', '', '', ''],   // Stepway Intens CVT
+      10: ['https://i.postimg.cc/sX7fH7qJ/image.png', 'https://i.postimg.cc/GtjLdrcX/image.png', 'https://i.postimg.cc/8PHcVd5X/image.png', '', '', ''],  // Duster Intens 1.6 MT
+      11: ['https://i.postimg.cc/4ddn8Ysy/image.png', 'https://i.postimg.cc/02mGGBVt/image.png', 'https://i.postimg.cc/MGZySKqg/image.png', '', '', ''],  // Kardian Evolution EDC
+      12: ['https://i.postimg.cc/tChPnVgD/image.png', 'https://i.postimg.cc/s20ZCYnX/image.png', 'https://i.postimg.cc/FzSSZYV0/image.png', '', '', ''],  // Kardian Iconic
+      13: ['https://i.postimg.cc/gj4W1DsP/image.png', 'https://i.postimg.cc/bNCPTmdd/image.png', 'https://i.postimg.cc/Z5XSk08W/image.png', '', '', ''],  // Duster Iconic 1.3T CVT
+      14: ['https://i.postimg.cc/HsxDVb3W/image.png', 'https://i.postimg.cc/kg60y9kh/image.png', 'https://i.postimg.cc/hj1W7rH4/image.png', '', '', ''],  // Duster Iconic 1.3T 4x4 MT
+      15: ['https://i.postimg.cc/nc55rgCq/image.png', 'https://i.postimg.cc/QdTzTmT2/image.png', 'https://i.postimg.cc/vB32sSJx/image.png', '', '', ''],  // Arkana Evolution
+      16: ['https://i.postimg.cc/Gp1b8HHK/image.png', 'https://i.postimg.cc/qRJ0wSc4/image.png', 'https://i.postimg.cc/FsM487bW/image.png', '', '', ''],  // Oroch Intens CVT
+      17: ['https://i.postimg.cc/tg5GsD0G/image.png', 'https://i.postimg.cc/k4Yrc4X0/image.png', 'https://i.postimg.cc/528VVbnF/image.png', '', '', ''],  // Oroch Intens 4x4 Outsider
+      18: ['https://i.postimg.cc/44MkHm08/image.png', 'https://i.postimg.cc/GmwWz6rN/image.png', 'https://i.postimg.cc/rpg7VmWN/image.png', '', '', ''],  // Duster Hybrid E-Tech 4x4 AT
+      19: ['https://i.postimg.cc/T3xRhKyC/image.png', 'https://i.postimg.cc/GphdJ6xr/image.png', 'https://i.postimg.cc/NGyGnqqk/image.png', '', '', ''],  // Duster Full Hybrid E-Tech 4x4 CVT
+      20: ['https://i.postimg.cc/4ds4MmGN/image.png', 'https://i.postimg.cc/FzKrr879/image.png', 'https://i.postimg.cc/zXcBBzwY/image.png', '', '', ''],  // Arkana Esprit Alpine
+      21: ['https://i.postimg.cc/mg4HR2T4/image.png', 'https://i.postimg.cc/SKT2W685/image.png', 'https://i.postimg.cc/m2sD1XJp/image.png', '', '', ''],  // Nueva Koleos Techno
+      22: ['https://i.postimg.cc/QMHxZR9R/image.png', 'https://i.postimg.cc/1z2RmJDG/image.png', 'https://i.postimg.cc/T323CyRh/image.png', '', '', ''],  // Nueva Koleos E-Tech
+    };
+
+    // TU FOTO (la que sale arriba en la página): pega aquí el link entre las comillas
+    const FOTO_SANTIAGO = 'https://i.postimg.cc/sx1JYfv7/b23aec34-1315-4e01-a0cc-667aaeb2e24f.jpg';
 
     // DATOS VEHÍCULOS - 22 MODELOS PLAN ROMBO (precio = Valor Plan)
     const POR = 'Por confirmar';
@@ -860,7 +897,7 @@
     const slug = v => v.modelo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
     const fotosDe = v => LABELS.map((label, i) => ({
       label,
-      src: (v.imagenes && v.imagenes[i]) ? v.imagenes[i] : `fotos/${slug(v)}-${i + 1}.jpg`
+      src: (FOTOS[v.id] && FOTOS[v.id][i]) || (v.imagenes && v.imagenes[i]) || `fotos/${slug(v)}-${i + 1}.jpg`
     }));
 
     const carIdx = {};
@@ -1126,8 +1163,13 @@
       filtered.forEach(v => { refreshCar(v.id); startAuto(v.id); });
     }
 
+    if (FOTO_SANTIAGO) {
+      const im = document.querySelector('.asesor-foto img');
+      const ph = document.querySelector('.asesor-ph');
+      if (im) { im.style.display = ''; if (ph) ph.style.display = 'none'; im.src = FOTO_SANTIAGO; }
+    }
+
     initFilters();
   </script>
 </body>
 </html>
-
