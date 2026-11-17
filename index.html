@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tu Renault Con Santiago - Plan Rombo</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#003DA5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Renault Santiago">
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -88,6 +92,7 @@
       height:90px;filter:drop-shadow(0 4px 20px rgba(0,0,0,.3));
       transition:transform .3s,filter .3s;
     }
+    .hero-logo-txt{font-family:var(--display);font-size:46px;font-weight:900;letter-spacing:12px;color:#fff;text-shadow:0 4px 20px rgba(0,0,0,.35);}
     .hero-logo:hover{transform:scale(1.08);filter:drop-shadow(0 8px 28px rgba(192,39,45,.4));}
     .hero h1{
       font-family:var(--display);font-size:clamp(52px,12vw,96px);
@@ -191,6 +196,12 @@
       box-shadow:0 4px 14px rgba(37,211,102,.3);
     }
     .asesor-btn:hover{transform:translateY(-2px);background:#1ead6f;}
+
+    #offlineBar{
+      display:none;position:fixed;top:0;left:0;right:0;z-index:500;text-align:center;
+      background:var(--yellow);color:#111;font-size:12px;font-weight:700;padding:6px 10px;
+    }
+    #offlineBar.show{display:block;}
 
     /* ─── FILTERS ─── */
     .filters-wrap{
@@ -570,6 +581,8 @@
 </head>
 <body>
 
+  <div id="offlineBar">📴 Sin internet — mostrando la versión guardada en tu celular</div>
+
   <!-- BOTÓN WA FLOTANTE GRANDE -->
   <a href="https://wa.me/573001118945" target="_blank" class="wa-float-btn" title="Contactar por WhatsApp">
     <span class="wa-float-label">¡Contáctanos!</span>
@@ -594,7 +607,8 @@
   <div class="hero">
     <span class="hero-badge">Plan Rombo Sin Banco</span>
     <div class="hero-logo-wrap">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Renault_2015_logo.svg/1024px-Renault_2015_logo.svg.png" alt="Renault" class="hero-logo">
+      <img src="logo-renault.png" alt="Renault" class="hero-logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <span class="hero-logo-txt" style="display:none">RENAULT</span>
     </div>
     <h1>Tu Renault <span>Con Santiago</span></h1>
     <p class="hero-sub">Financiamiento flexible • 84 meses • Sin interés bancario</p>
@@ -775,23 +789,27 @@
       7: ['https://i.postimg.cc/kGMpkdDs/image.png', 'https://i.postimg.cc/NMcVkXtv/image.png', '', '', '', ''],   // Kangoo
       8: ['https://i.postimg.cc/hPqQnP0f/image.png', 'https://i.postimg.cc/Z5wW6Pzw/image.png', 'https://i.postimg.cc/wMYM90D8/image.png', '', '', ''],   // Duster Zen 1.6 MT
       9: ['https://i.postimg.cc/7PTDV309/image.png', 'https://i.postimg.cc/8zTSNx3K/image.png', 'https://i.postimg.cc/NjbwMpvg/image.png', '', '', ''],   // Stepway Intens CVT
-      10: ['https://i.postimg.cc/sX7fH7qJ/image.png', 'https://i.postimg.cc/GtjLdrcX/image.png', 'https://i.postimg.cc/8PHcVd5X/image.png', '', '', ''],  // Duster Intens 1.6 MT
-      11: ['https://i.postimg.cc/4ddn8Ysy/image.png', 'https://i.postimg.cc/02mGGBVt/image.png', 'https://i.postimg.cc/MGZySKqg/image.png', '', '', ''],  // Kardian Evolution EDC
-      12: ['https://i.postimg.cc/tChPnVgD/image.png', 'https://i.postimg.cc/s20ZCYnX/image.png', 'https://i.postimg.cc/FzSSZYV0/image.png', '', '', ''],  // Kardian Iconic
-      13: ['https://i.postimg.cc/gj4W1DsP/image.png', 'https://i.postimg.cc/bNCPTmdd/image.png', 'https://i.postimg.cc/Z5XSk08W/image.png', '', '', ''],  // Duster Iconic 1.3T CVT
-      14: ['https://i.postimg.cc/HsxDVb3W/image.png', 'https://i.postimg.cc/kg60y9kh/image.png', 'https://i.postimg.cc/hj1W7rH4/image.png', '', '', ''],  // Duster Iconic 1.3T 4x4 MT
-      15: ['https://i.postimg.cc/nc55rgCq/image.png', 'https://i.postimg.cc/QdTzTmT2/image.png', 'https://i.postimg.cc/vB32sSJx/image.png', '', '', ''],  // Arkana Evolution
-      16: ['https://i.postimg.cc/Gp1b8HHK/image.png', 'https://i.postimg.cc/qRJ0wSc4/image.png', 'https://i.postimg.cc/FsM487bW/image.png', '', '', ''],  // Oroch Intens CVT
-      17: ['https://i.postimg.cc/tg5GsD0G/image.png', 'https://i.postimg.cc/k4Yrc4X0/image.png', 'https://i.postimg.cc/528VVbnF/image.png', '', '', ''],  // Oroch Intens 4x4 Outsider
-      18: ['https://i.postimg.cc/44MkHm08/image.png', 'https://i.postimg.cc/GmwWz6rN/image.png', 'https://i.postimg.cc/rpg7VmWN/image.png', '', '', ''],  // Duster Hybrid E-Tech 4x4 AT
-      19: ['https://i.postimg.cc/T3xRhKyC/image.png', 'https://i.postimg.cc/GphdJ6xr/image.png', 'https://i.postimg.cc/NGyGnqqk/image.png', '', '', ''],  // Duster Full Hybrid E-Tech 4x4 CVT
-      20: ['https://i.postimg.cc/4ds4MmGN/image.png', 'https://i.postimg.cc/FzKrr879/image.png', 'https://i.postimg.cc/zXcBBzwY/image.png', '', '', ''],  // Arkana Esprit Alpine
-      21: ['https://i.postimg.cc/mg4HR2T4/image.png', 'https://i.postimg.cc/SKT2W685/image.png', 'https://i.postimg.cc/m2sD1XJp/image.png', '', '', ''],  // Nueva Koleos Techno
-      22: ['https://i.postimg.cc/QMHxZR9R/image.png', 'https://i.postimg.cc/1z2RmJDG/image.png', 'https://i.postimg.cc/T323CyRh/image.png', '', '', ''],  // Nueva Koleos E-Tech
+      10: ['https://i.postimg.cc/sX7fH7qJ/image.png', 'https://i.postimg.cc/GtjLdrcX/image.png', 'https://i.postimg.cc/8PHcVd5X/image.png', '', '', ''],   // Duster Intens 1.6 MT
+      11: ['https://i.postimg.cc/4ddn8Ysy/image.png', 'https://i.postimg.cc/02mGGBVt/image.png', 'https://i.postimg.cc/MGZySKqg/image.png', '', '', ''],   // Kardian Evolution EDC
+      12: ['https://i.postimg.cc/tChPnVgD/image.png', 'https://i.postimg.cc/s20ZCYnX/image.png', 'https://i.postimg.cc/FzSSZYV0/image.png', '', '', ''],   // Kardian Iconic
+      13: ['https://i.postimg.cc/gj4W1DsP/image.png', 'https://i.postimg.cc/bNCPTmdd/image.png', 'https://i.postimg.cc/Z5XSk08W/image.png', '', '', ''],   // Duster Iconic 1.3T CVT
+      14: ['https://i.postimg.cc/HsxDVb3W/image.png', 'https://i.postimg.cc/kg60y9kh/image.png', 'https://i.postimg.cc/hj1W7rH4/image.png', '', '', ''],   // Duster Iconic 1.3T 4x4 MT
+      15: ['https://i.postimg.cc/nc55rgCq/image.png', 'https://i.postimg.cc/QdTzTmT2/image.png', 'https://i.postimg.cc/vB32sSJx/image.png', '', '', ''],   // Arkana Evolution
+      16: ['https://i.postimg.cc/Gp1b8HHK/image.png', 'https://i.postimg.cc/qRJ0wSc4/image.png', 'https://i.postimg.cc/FsM487bW/image.png', '', '', ''],   // Oroch Intens CVT
+      17: ['https://i.postimg.cc/tg5GsD0G/image.png', 'https://i.postimg.cc/k4Yrc4X0/image.png', 'https://i.postimg.cc/528VVbnF/image.png', '', '', ''],   // Oroch Intens 4x4 Outsider
+      18: ['https://i.postimg.cc/44MkHm08/image.png', 'https://i.postimg.cc/GmwWz6rN/image.png', 'https://i.postimg.cc/rpg7VmWN/image.png', '', '', ''],   // Duster Hybrid E-Tech 4x4 AT
+      19: ['https://i.postimg.cc/T3xRhKyC/image.png', 'https://i.postimg.cc/GphdJ6xr/image.png', 'https://i.postimg.cc/NGyGnqqk/image.png', '', '', ''],   // Duster Full Hybrid E-Tech 4x4 CVT
+      20: ['https://i.postimg.cc/4ds4MmGN/image.png', 'https://i.postimg.cc/FzKrr879/image.png', 'https://i.postimg.cc/zXcBBzwY/image.png', '', '', ''],   // Arkana Esprit Alpine
+      21: ['https://i.postimg.cc/mg4HR2T4/image.png', 'https://i.postimg.cc/SKT2W685/image.png', 'https://i.postimg.cc/m2sD1XJp/image.png', '', '', ''],   // Nueva Koleos Techno
+      22: ['https://i.postimg.cc/QMHxZR9R/image.png', 'https://i.postimg.cc/1z2RmJDG/image.png', 'https://i.postimg.cc/T323CyRh/image.png', '', '', ''],   // Nueva Koleos E-Tech
     };
 
     // TU FOTO (la que sale arriba en la página): pega aquí el link entre las comillas
     const FOTO_SANTIAGO = 'https://i.postimg.cc/sx1JYfv7/b23aec34-1315-4e01-a0cc-667aaeb2e24f.jpg';
+    // AJUSTE de tu foto (si sales chiquito o cortado en el círculo):
+    //   x e y mueven la foto (0 a 100) · zoom la acerca (1 = normal, 2 = el doble, 3 = el triple)
+    //   Ejemplo para acercar la cara: { x: 85, y: 40, zoom: 2.5 }
+    const FOTO_SANTIAGO_AJUSTE = { x: 50, y: 30, zoom: 1 };
 
     // DATOS VEHÍCULOS - 22 MODELOS PLAN ROMBO (precio = Valor Plan)
     const POR = 'Por confirmar';
@@ -1088,7 +1106,7 @@
             <div class="carousel-slides">
               ${fotos.map((f, i) => `<div class="carousel-slide" data-n="${i}" ${i >= 3 ? 'style="display:none"' : ''}>
                 <div class="slide-ph"><span style="font-size:26px">📷</span><b>Foto ${i + 1} · ${f.label}</b><code>${f.src}</code></div>
-                <img src="${f.src}" alt="${v.modelo} - ${f.label}" loading="lazy" onload="slideOk(${v.id}, ${i})" onerror="slideFail(${v.id}, ${i})">
+                <img src="${f.src}" alt="${v.modelo} - ${f.label}" onload="slideOk(${v.id}, ${i})" onerror="slideFail(${v.id}, ${i})">
                 <span class="slide-tag">${f.label}</span>
               </div>`).join('')}
             </div>
@@ -1163,11 +1181,25 @@
       filtered.forEach(v => { refreshCar(v.id); startAuto(v.id); });
     }
 
-    if (FOTO_SANTIAGO) {
+    (function () {
       const im = document.querySelector('.asesor-foto img');
       const ph = document.querySelector('.asesor-ph');
-      if (im) { im.style.display = ''; if (ph) ph.style.display = 'none'; im.src = FOTO_SANTIAGO; }
+      if (!im) return;
+      if (FOTO_SANTIAGO) { im.style.display = ''; if (ph) ph.style.display = 'none'; im.src = FOTO_SANTIAGO; }
+      const a = FOTO_SANTIAGO_AJUSTE;
+      im.style.objectPosition = `${a.x}% ${a.y}%`;
+      im.style.transformOrigin = `${a.x}% ${a.y}%`;
+      im.style.transform = `scale(${a.zoom})`;
+    })();
+
+    // ─── MODO SIN INTERNET ───
+    if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
     }
+    const barra = () => $('offlineBar').classList.toggle('show', !navigator.onLine);
+    window.addEventListener('online', barra);
+    window.addEventListener('offline', barra);
+    barra();
 
     initFilters();
   </script>
