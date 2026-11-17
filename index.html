@@ -43,7 +43,7 @@
       position:relative;overflow:hidden;
     }
     .social-btn::before{
-      content:'';position:absolute;inset:0;background:rgba(255,255,255,.1);
+      content:'';position:absolute;top:0;right:0;bottom:0;left:0;background:rgba(255,255,255,.1);
       opacity:0;transition:opacity .3s;
     }
     .social-btn:hover{
@@ -95,7 +95,7 @@
     .hero-logo-txt{font-family:var(--display);font-size:46px;font-weight:900;letter-spacing:12px;color:#fff;text-shadow:0 4px 20px rgba(0,0,0,.35);}
     .hero-logo:hover{transform:scale(1.08);filter:drop-shadow(0 8px 28px rgba(192,39,45,.4));}
     .hero h1{
-      font-family:var(--display);font-size:clamp(52px,12vw,96px);
+      font-family:var(--display);font-size:64px;font-size:clamp(52px,12vw,96px);
       font-weight:900;line-height:.88;text-transform:uppercase;letter-spacing:-2px;
       animation:slideUp .8s ease-out .1s backwards;
     }
@@ -147,7 +147,7 @@
 
     /* ─── ESPACIOS DE FOTOS ─── */
     .slide-ph{
-      position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+      position:absolute;top:0;right:0;bottom:0;left:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
       gap:6px;background:linear-gradient(135deg,rgba(0,61,165,.6),rgba(192,39,45,.5));
       color:#fff;text-align:center;padding:12px;font-size:12px;
     }
@@ -213,7 +213,7 @@
       display:flex;flex-wrap:wrap;justify-content:center;gap:8px;padding:14px 24px;
       max-width:1200px;margin:0 auto;
     }
-    @media (min-width:769px){ .filters-wrap{position:sticky;top:0;} }
+    @media (min-width:769px){ .filters-wrap{position:-webkit-sticky;position:sticky;top:0;} }
     @media (max-width:768px){ .filter-btn{padding:7px 13px;font-size:11px;} }
     .filters::-webkit-scrollbar{display:none;}
     .filter-btn{
@@ -290,7 +290,7 @@
 
     /* ─── LIGHTBOX ZOOM ─── */
     .lightbox{
-      display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);
+      display:none;position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(0,0,0,.9);
       z-index:1000;align-items:center;justify-content:center;
     }
     .lightbox.active{display:flex;}
@@ -422,7 +422,7 @@
 
     /* ─── MODAL COMPARADOR ─── */
     #cmpModal{
-      display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);
+      display:none;position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(0,0,0,.8);
       z-index:999;align-items:center;justify-content:center;padding:20px;
     }
     #cmpModal.open{display:flex;}
@@ -448,7 +448,7 @@
 
     /* ─── COTIZACIÓN FORMULARIO ─── */
     .quote-modal{
-      display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);
+      display:none;position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(0,0,0,.8);
       z-index:999;align-items:center;justify-content:center;padding:20px;
     }
     .quote-modal.active{display:flex;}
@@ -568,14 +568,32 @@
     }
 
     @media (max-width:768px){
-      .social-float{right:10px;width:40px;}
-      .social-btn{width:40px;height:40px;}
+      .social-float{right:8px;gap:10px;}
+      .social-btn{width:36px;height:36px;}
+      .social-btn svg{width:20px;height:20px;}
+      .social-btn.wa{display:none;}
+      .card-body,.exp-inner{padding-right:56px;}
       .hero{padding:40px 20px 30px;}
       .hero h1{font-size:36px;}
       .filters{padding:10px 16px;}
       .main{padding:20px 16px 120px;}
       .grid{grid-template-columns:1fr;}
       .conc-grid{grid-template-columns:1fr;}
+    }
+
+    /* ─── RESPALDO PARA IPAD / CELULARES VIEJOS (Safari anterior a 14.1) ─── */
+    @supports not (inset:0){
+      .filters>*{margin:4px;}
+      .social-float>*+*{margin-top:14px;}
+      .carousel-dots>*+*{margin-left:5px;}
+      .hero-stats>*{margin:0 24px;}
+      .asesor>*{margin:4px 8px;}
+      .cta-area>*+*{margin-left:10px;}
+      .quote-actions>*+*{margin-left:10px;}
+      .cmpBar-btns>*+*{margin-left:10px;}
+      .extras>*{margin:0 6px 6px 0;}
+      #cmpBarItems>*{margin:0 10px 10px 0;}
+      .btn-wa>*+*{margin-left:8px;}
     }
   </style>
 </head>
